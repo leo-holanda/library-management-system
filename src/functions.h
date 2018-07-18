@@ -1,9 +1,9 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-void show_menu();
-void add_book();
-void remove_book();
-void check_the_book();
-
+void showMenu();
+void addBook();
+void removeBook();
+void checkTheBook();
+	
 #endif
