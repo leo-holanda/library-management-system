@@ -1,61 +1,102 @@
-#include <stdio.h>
+#include <stdio.h> 
+#include <stdlib.h>
 #include "functions.h"
 
 typedef struct book
 {
 	int id;
-	char nome_do_autor[10];
-	char nome_do_livro[10];
-	char nome_da_editora[10];
+	char author_name[50];
+	char book_name[50];
+	char publisher[25];
 } book;
 
-void addBook(book *list)
+char getAnswer(int select)
 {
+	if (select == 0)
+	{
+		printf("Livro adicionado com sucesso! Deseja adicionar outro? ");
+	}
+	else if(select == 1)
+	{
+		printf("Livro removido com sucesso! Deseja remover outro? ");
+	}
+	else if (select == 2)
+	{
+		printf("Deseja checar outro? ");		
+	}
+	printf("\n");
+
+	char answer;
+	scanf("%c", &answer);
+	getchar();
+
+	return answer;
+}
+
+void addBook()
+{
+	system("clear");
+
 	book new_book;
 	printf("Digite o nome do livro: ");
-	fgets(new_book.nome_do_livro,10,stdin);
+	fgets(new_book.book_name,50,stdin);
 	printf("Digite o nome do autor: ");
-	fgets(new_book.nome_do_autor,10,stdin);
+	fgets(new_book.author_name,50,stdin);
 	printf("Digite o nome da editora: ");
-	fgets(new_book.nome_da_editora,10,stdin);
+	fgets(new_book.publisher,25,stdin);
 
-	int i = 0;
-	while(list[i].id != -1)
+	FILE *f = fopen("books//data.txt","a+");
+	fprintf(f,"Titulo: %s",new_book.book_name);
+	fprintf(f,"Autor: %s",new_book.author_name);
+	fprintf(f,"Editora: %s\n",new_book.publisher);
+	fclose(f);
+
+	if (getAnswer(0) == 'S')
 	{
-		i++;
+		addBook();
 	}
-
-	new_book.id=i;
-	list[i]=new_book;
-	showMenu(list);
+	else
+	{
+		showMenu();
+	}
 }
 
-void removeBook(book *list)
+void removeBook()
 {
-	printf("Digite o ID\n");
-	
-	int id;
-	scanf("%d", &id);
+	system("clear");
 
-	list[id].id = -1;
-	showMenu(list);
+	printf("Digite o ID\n");
+		
+	if (getAnswer(1) == 'S')
+	{
+		removeBook();
+	}
+	else
+	{
+		showMenu();
+	}
 }
 
-void checkTheBook(book *list)
+void checkBook()
 {
-	printf("Digite o ID\n");
+	FILE *f = fopen("books//data.txt","r");
 
-	int id;
-	scanf("%d", &id);
+	system("clear");
 
-	puts(list[id].nome_do_livro);
-	puts(list[id].nome_do_autor);
-	puts(list[id].nome_da_editora);	
-	showMenu(list);
+	if (getAnswer(2) == 'S')
+	{
+		checkBook();
+	}
+	else
+	{
+		showMenu();
+	}
 }
 
-void showMenu(book *list)
+void showMenu()
 { 
+	system("clear");
+		
 	int command;
 
 	printf("Sistema de Livraria\n");
@@ -70,16 +111,23 @@ void showMenu(book *list)
 
 	switch(command)
 	{
-		case 1 :
-		addBook(list);
+		case 1:
+		addBook();
 		break;
 
-		case 2 :
-		removeBook(list);
+		case 2:
+		removeBook();
 		break;
 
-		case 3 :
-		checkTheBook(list);
+		case 3:
+		checkBook();
 		break;
+
+		case 4:
+		system("clear");
+		return;
+
+		default :
+		printf("Comando invalido, digite novamente.\n");
 	}
 }

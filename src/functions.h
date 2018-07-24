@@ -4,6 +4,7 @@
 void showMenu();
 void addBook();
 void removeBook();
-void checkTheBook();
-	
+void checkBook();
+char getAnswer();
+
 #endif
