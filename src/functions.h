@@ -3,8 +3,11 @@
 
 void showMenu();
 void addBook();
-void removeBook();
-void checkBook();
+void showAllBooks();
 char getAnswer();
+void checkPublisher();
+void checkTitle();
+void checkAuthor();
+void showCheckMenu();
 
 #endif

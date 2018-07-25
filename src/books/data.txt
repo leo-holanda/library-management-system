@@ -1,16 +1,12 @@
-Titulo: Je
-Autor: Jo
-Editora: Ta
+Marina
+Carlos Ruiz Zafon
+Leya
 
-Titulo: Xa
-Autor: qi
-Editora: si
+Fundação
+Isaac Asimov
+Apelh
 
-Titulo: L
-Autor: e
-Editora: o
-
-Titulo: Fundacoa
-Autor: Isaac Asimov
-Editora: Aleph
+As vinhas da Ira
+John Steinbeck
+Arqueiro
 

@@ -22,7 +22,7 @@ char getAnswer(int select)
 	}
 	else if (select == 2)
 	{
-		printf("Deseja checar outro? ");		
+		printf("Deseja consultar outro? ");		
 	}
 	printf("\n");
 
@@ -46,9 +46,9 @@ void addBook()
 	fgets(new_book.publisher,25,stdin);
 
 	FILE *f = fopen("books//data.txt","a+");
-	fprintf(f,"Titulo: %s",new_book.book_name);
-	fprintf(f,"Autor: %s",new_book.author_name);
-	fprintf(f,"Editora: %s\n",new_book.publisher);
+	fprintf(f,"%s",new_book.book_name);
+	fprintf(f,"%s",new_book.author_name);
+	fprintf(f,"%s\n",new_book.publisher);
 	fclose(f);
 
 	if (getAnswer(0) == 'S')
@@ -61,15 +61,39 @@ void addBook()
 	}
 }
 
-void removeBook()
+void showAllBooks()
 {
 	system("clear");
 
-	printf("Digite o ID\n");
-		
-	if (getAnswer(1) == 'S')
+	int count = 0;
+	char line[50];
+	FILE *f = fopen("books//data.txt","r");
+
+	while(fgets(line,50,f) != NULL)
 	{
-		removeBook();
+		if (count == 0)
+		{
+			printf("Título: %s", line);
+		}
+		else if (count == 1)
+		{
+			printf("Autor(a): %s", line);
+		}
+		else if (count == 2)
+		{
+			printf("Editora: %s", line);
+		}
+		else if (count == 3)
+		{
+			count = -1;
+			printf("%s", line);
+		}
+		count++;
+	}
+
+	if (getAnswer(2) == 'S')
+	{
+		showAllBooks();
 	}
 	else
 	{
@@ -77,20 +101,19 @@ void removeBook()
 	}
 }
 
-void checkBook()
+void checkTitle()
 {
-	FILE *f = fopen("books//data.txt","r");
 
-	system("clear");
+}
 
-	if (getAnswer(2) == 'S')
-	{
-		checkBook();
-	}
-	else
-	{
-		showMenu();
-	}
+void checkAuthor()
+{
+
+}
+
+void checkPublisher()
+{
+
 }
 
 void showMenu()
@@ -99,11 +122,10 @@ void showMenu()
 		
 	int command;
 
-	printf("Sistema de Livraria\n");
+	printf("Sistema de Livraria\n\n");
 	printf("1 - Adicionar Livro\n");
-	printf("2 - Remover Livro\n");
-	printf("3 - Checar Livro\n");
-	printf("4 - Sair\n\n");
+	printf("2 - Checar Livro\n");
+	printf("3 - Sair\n\n");
 	printf("O que deseja? ");
 	
 	scanf("%d", &command);
@@ -116,18 +138,56 @@ void showMenu()
 		break;
 
 		case 2:
-		removeBook();
+		showCheckMenu();
 		break;
 
 		case 3:
-		checkBook();
+		system("clear");
+		return;
+	}
+}
+
+void showCheckMenu()
+{
+	printf("Deseja consultar por...\n");
+	printf("1 - Título\n");
+	printf("2 - Autor\n");
+	printf("3 - Editora\n");
+	printf("4 - Todos os livros\n");
+
+	int command;
+	scanf("%d", &command);
+	getchar();
+
+	switch(command)
+	{
+		case 1:
+		checkTitle();
+		break;
+
+		case 2:
+		checkAuthor();
+		break;
+
+		case 3:
+		checkPublisher();
 		break;
 
 		case 4:
-		system("clear");
-		return;
-
-		default :
-		printf("Comando invalido, digite novamente.\n");
+		showAllBooks();
+		break;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
