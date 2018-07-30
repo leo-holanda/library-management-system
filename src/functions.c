@@ -1,6 +1,7 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "functions.h"
 
 typedef struct book
@@ -11,27 +12,64 @@ typedef struct book
 	char publisher[25];
 } book;
 
+int compareString(char *string_1, char *string_2)
+{
+	char compare_1[50];
+	strcpy(compare_1,string_1);
+	char compare_2[50];
+	strcpy(compare_2,string_2);
+
+	int i;
+	for (int i = 0; i < 50; ++i)
+	{
+		compare_1[i] = tolower(compare_1[i]);
+		compare_2[i] = tolower(compare_2[i]);
+	}
+
+	if (strcmp(compare_1,compare_2) == 0)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
 char getAnswer(int select)
 {
 	if (select == 0)
 	{
-		printf("Livro adicionado com sucesso! Deseja adicionar outro? ");
+		printf("Livro adicionado com sucesso! Deseja adicionar outro?");
 	}
-	else if(select == 1)
+	else if (select == 1)
 	{
-		printf("Livro removido com sucesso! Deseja remover outro? ");
+		printf("Deseja consultar novamente?");		
 	}
-	else if (select == 2)
-	{
-		printf("Deseja consultar outro? ");		
-	}
-	printf("\n");
+	
+	printf(" (s/n) -> ");
 
 	char answer;
 	scanf("%c", &answer);
 	getchar();
+	answer = tolower(answer);
+	
+	while(answer != 's' && answer != 'n')
+	{
+		printf("\nComando invalido! Digite novamente -> ");
+		scanf("%c", &answer);
+		getchar();
+		answer = tolower(answer);		
+	}
 
-	return answer;
+	if (answer == 's')
+	{
+		return 1;
+	}
+	else if(answer == 'n')
+	{
+		return 0;
+	}
 }
 
 void addBook()
@@ -52,7 +90,7 @@ void addBook()
 	fprintf(f,"%s",new_book.publisher);
 	fclose(f);
 
-	if (getAnswer(0) == 'S')
+	if (getAnswer(0))
 	{
 		addBook();
 	}
@@ -89,7 +127,7 @@ void showAllBooks()
 		count++;
 	}
 
-	if (getAnswer(2) == 'S')
+	if (getAnswer(1))
 	{
 		showAllBooks();
 	}
@@ -119,7 +157,7 @@ void checkTitle()
 	{
 		fgets(book_title,50,f);
 
-		if (strcmp(searched_title,book_title) ==0 )
+		if (compareString(searched_title,book_title))
 		{
 			fgets(author_name,50,f);
 			fgets(publisher,50,f);
@@ -135,7 +173,7 @@ void checkTitle()
 		}
 	}
 
-	if (getAnswer(2) == 'S')
+	if (getAnswer(1))
 	{
 		checkTitle();
 	}
@@ -166,7 +204,7 @@ void checkAuthor()
 		fgets(book_title,50,f);
 		fgets(author_name,50,f);
 			
-		if (strcmp(searched_author,author_name) ==0 )
+		if (compareString(searched_author,author_name))
 		{
 			fgets(publisher,50,f);
 		
@@ -180,7 +218,7 @@ void checkAuthor()
 		}
 	}
 
-	if (getAnswer(2) == 'S')
+	if (getAnswer(1))
 	{
 		checkAuthor();
 	}
@@ -212,7 +250,7 @@ void checkPublisher()
 		fgets(author_name,50,f);
 		fgets(publisher,50,f);	
 		
-		if (strcmp(searched_publisher,publisher) ==0 )
+		if (compareString(searched_publisher,publisher))
 		{
 			printf("Título: %s", book_title);
 			printf("Autor: %s", author_name);
@@ -220,7 +258,7 @@ void checkPublisher()
 		}
 	}
 
-	if (getAnswer(2) == 'S')
+	if (getAnswer(1))
 	{
 		checkPublisher();
 	}
