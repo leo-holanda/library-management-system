@@ -36,6 +36,34 @@ int compareString(char *string_1, char *string_2)
 	}
 }
 
+int getCommand(int select)
+{
+	int command;
+	scanf("%d", &command);
+	getchar();
+
+	if (select == 1)
+	{
+		while(command != 1 && command != 2 && command != 3)
+		{
+			printf("Comando invalido! Digite novamente (1,2,3) -> ");
+			scanf("%d", &command);
+			getchar();
+		}
+	}
+	else if (select == 2)
+	{
+		while(command != 1 && command != 2 && command != 3 && command && command != 4)
+		{
+			printf("Comando invalido! Digite novamente (1,2,3,4) -> ");
+			scanf("%d", &command);
+			getchar();
+		}
+	}
+
+	return command;
+}
+
 char getAnswer(int select)
 {
 	if (select == 0)
@@ -145,6 +173,7 @@ void checkTitle()
 	char author_name[50];
 	char publisher[50];
 	char line[50];
+	int count = 0;
 	
 	char searched_title[50];
 	printf("Digite o título que deseja buscar: ");
@@ -159,9 +188,11 @@ void checkTitle()
 
 		if (compareString(searched_title,book_title))
 		{
+			count = 1;
+
 			fgets(author_name,50,f);
 			fgets(publisher,50,f);
-		
+
 			printf("Título: %s", book_title);
 			printf("Autor: %s", author_name);
 			printf("Editora: %s\n",publisher);
@@ -171,6 +202,11 @@ void checkTitle()
 			fgets(line,50,f);
 			fgets(line,50,f);
 		}
+	}
+
+	if (count == 0)
+	{
+		printf("Não foi possível encontrar resultados para essa pesquisa.\n");
 	}
 
 	if (getAnswer(1))
@@ -191,6 +227,7 @@ void checkAuthor()
 	char author_name[50];
 	char publisher[50];
 	char line[50];
+	int count = 0;
 	
 	char searched_author[50];
 	printf("Digite o nome do autor que deseja buscar: ");
@@ -206,8 +243,10 @@ void checkAuthor()
 			
 		if (compareString(searched_author,author_name))
 		{
+			count = 1;
+
 			fgets(publisher,50,f);
-		
+
 			printf("Título: %s", book_title);
 			printf("Autor: %s", author_name);
 			printf("Editora: %s\n",publisher);
@@ -216,6 +255,11 @@ void checkAuthor()
 		{
 			fgets(line,50,f);
 		}
+	}
+
+	if (count == 0)
+	{
+		printf("Não foi possível encontrar resultados para essa pesquisa.\n");
 	}
 
 	if (getAnswer(1))
@@ -236,7 +280,8 @@ void checkPublisher()
 	char author_name[50];
 	char publisher[50];
 	char line[50];
-	
+	int count = 0;
+
 	char searched_publisher[50];
 	printf("Digite o nome do autor que deseja buscar: ");
 	fgets(searched_publisher,50,stdin);
@@ -252,10 +297,16 @@ void checkPublisher()
 		
 		if (compareString(searched_publisher,publisher))
 		{
+			count = 1;
 			printf("Título: %s", book_title);
 			printf("Autor: %s", author_name);
 			printf("Editora: %s\n",publisher);
 		}
+	}
+
+	if (count == 0)
+	{
+		printf("Não foi possível encontrar resultados para essa pesquisa.\n");
 	}
 
 	if (getAnswer(1))
@@ -271,8 +322,6 @@ void checkPublisher()
 void showMenu()
 { 
 	system("clear");
-		
-	int command;
 
 	printf("Sistema de Livraria\n\n");
 	printf("1 - Adicionar Livro\n");
@@ -280,8 +329,8 @@ void showMenu()
 	printf("3 - Sair\n\n");
 	printf("O que deseja? ");
 	
-	scanf("%d", &command);
-	getchar();
+	int command;
+	command = getCommand(1);
 
 	switch(command)
 	{
@@ -309,8 +358,7 @@ void showCheckMenu()
 	printf("4 - Todos os livros\n");
 
 	int command;
-	scanf("%d", &command);
-	getchar();
+	command = getCommand(2);
 
 	switch(command)
 	{
@@ -333,14 +381,8 @@ void showCheckMenu()
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
+// switch case - usar while para receber command evitar entradas erradas x
+// mostrar "não foram encontrados resultados" nas check functions x
+// melhorar tela
+// adicionar ISBN e categoria na struct book
+// adicionar busca por ISBN(?) e categoria
