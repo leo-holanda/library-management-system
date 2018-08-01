@@ -9,5 +9,6 @@ void checkPublisher();
 void checkTitle();
 void checkAuthor();
 void showCheckMenu();
+void setCategory();
 
 #endif
