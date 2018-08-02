@@ -27,13 +27,15 @@ int compareString(char *string_1, char *string_2)
 		compare_2[i] = tolower(compare_2[i]);
 	}
 
-	if (strcmp(compare_1,compare_2) == 0)
+	compare_1[strlen(compare_1)-1] = '\0';	
+
+	if (strstr(compare_2,compare_1) == NULL)
 	{
-		return 1;
+		return 0;
 	}
 	else
 	{
-		return 0;
+		return 1;
 	}
 }
 
@@ -41,23 +43,29 @@ int getCommand(int select)
 {
 
 	int command;
-	scanf("%d", &command);
-	getchar();
 
 	if (select == 1)
 	{
+		printf("-> ");
+		scanf("%d", &command);
+		getchar();
+		
 		while(command != 1 && command != 2 && command != 3)
 		{
-			printf("Comando invalido! Digite novamente (1,2,3) -> ");
+			printf("Comando invalido! Digite novamente -> ");
 			scanf("%d", &command);
 			getchar();
 		}
 	}
 	else if (select == 2)
-	{
+	{	
+		printf("Digite o comando desejado -> ");
+		scanf("%d", &command);
+		getchar();
+	
 		while(command != 1 && command != 2 && command != 3 && command && command !=  4 && command != 5)
 		{
-			printf("Comando invalido! Digite novamente (1,2,3,4,5) -> ");
+			printf("Comando invalido! Digite novamente -> ");
 			scanf("%d", &command);
 			getchar();
 		}
@@ -554,5 +562,3 @@ void showCheckMenu()
 }
 
 // melhorar tela
-// adicionar ISBN e categoria na struct book
-// adicionar busca por ISBN(?) e categoria
