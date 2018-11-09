@@ -211,37 +211,33 @@ void addBook()
 void showAllBooks()
 {
 	system("clear");
+	
+	char book_title[50];
+	char author_name[50];
+	char publisher[50];
+	char isbn[50];
+	char category[20];
 
-	int count = 0;
 	char line[50];
 	FILE *f = fopen("books//data.txt","r");
 
+	printf("\n");
+
 	while(fgets(line,50,f) != NULL)
 	{
-		if (count == 1)
-		{
-			printf("Título: %s", line);
-		}
-		else if (count == 2)
-		{
-			printf("Autor(a): %s", line);
-		}
-		else if (count == 3)
-		{
-			printf("Editora: %s", line);
-		}
-		else if(count == 4)
-		{
-			printf("ISBN: %s", line);
-		}
-		else if(count == 5)
-		{
-			printf("Categoria: %s\n", line);
-			count = - 1;
-		}
+		fgets(book_title,50,f);
+		fgets(author_name,50,f);
+		fgets(publisher,50,f);	
+		fgets(isbn,50,f);
+		fgets(category,20,f);
 
-		count++;
+		printf("Título: %s", book_title);
+		printf("Autor: %s", author_name);
+		printf("Editora: %s",publisher);
+		printf("ISBN: %s", isbn);
+		printf("Categoria: %s\n", category);
 	}
+
 	if (getAnswer(1))
 	{
 		showAllBooks();
