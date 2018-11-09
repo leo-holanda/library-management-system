@@ -1,14 +1,5 @@
 #include "functions.h"
 
-typedef struct book
-{
-	int isbn;
-	char author_name[50];
-	char book_title[50];
-	char publisher[25];
-	char category[20];
-} book;
-
 int compareString(char *string_1, char *string_2)
 {
 	char compare_1[50];
@@ -180,26 +171,31 @@ void setCategory(char *new_book_category)
 void addBook()
 {
 	system("clear");
-
-	book new_book;
+	
+	int isbn;
+	char author_name[50];
+	char book_title[50];
+	char publisher[25];
+	char category[20];
+	
 	printf("Digite o nome do livro: ");
-	fgets(new_book.book_title,50,stdin);
+	fgets(book_title,50,stdin);
 	printf("Digite o nome do autor: ");
-	fgets(new_book.author_name,50,stdin);
+	fgets(author_name,50,stdin);
 	printf("Digite o nome da editora: ");
-	fgets(new_book.publisher,25,stdin);
+	fgets(publisher,25,stdin);
 	printf("Digite o número de ISBN: ");
-	scanf("%d", &new_book.isbn);
+	scanf("%d", &isbn);
 	getchar();
 	printf("Escolha a categoria\n");
-	setCategory(new_book.category);
+	setCategory(category);
 
 	FILE *f = fopen("books//data.txt","a+");
-	fprintf(f,"\n%s",new_book.book_title);
-	fprintf(f,"%s",new_book.author_name);
-	fprintf(f,"%s",new_book.publisher);
-	fprintf(f,"%d\n",new_book.isbn);
-	fprintf(f,"%s",new_book.category);
+	fprintf(f,"\n%s",book_title);
+	fprintf(f,"%s",author_name);
+	fprintf(f,"%s",publisher);
+	fprintf(f,"%d\n",isbn);
+	fprintf(f,"%s\n",category);
 	fclose(f);
 
 	if (getAnswer(0))
@@ -240,7 +236,7 @@ void showAllBooks()
 		}
 		else if(count == 5)
 		{
-			printf("Categoria: %s\n\n", line);
+			printf("Categoria: %s\n", line);
 			count = - 1;
 		}
 
@@ -265,6 +261,7 @@ void checkTitle()
 	char publisher[50];
 	char isbn[50];
 	char category[20];
+
 	char line[50];
 	int count = 0;
 	
@@ -292,7 +289,7 @@ void checkTitle()
 			printf("Autor: %s", author_name);
 			printf("Editora: %s",publisher);
 			printf("ISBN: %s", isbn);
-			printf("Categoria: %s\n\n", category);
+			printf("Categoria: %s\n", category);
 		}
 		else
 		{
