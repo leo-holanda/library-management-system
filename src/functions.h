@@ -17,5 +17,6 @@ void checkAuthor();
 void showCheckMenu();
 void setCategory();
 struct tm getTime();
+void eraseBooks();
 
 #endif

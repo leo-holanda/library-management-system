@@ -37,7 +37,7 @@ int getCommand(int select)
 		scanf("%d", &command);
 		getchar();
 		
-		while(command != 1 && command != 2 && command != 3)
+		while(command != 1 && command != 2 && command != 3 && command != 4)
 		{
 			printf("Comando invalido! Digite novamente -> ");
 			scanf("%d", &command);
@@ -253,6 +253,8 @@ void showAllBooks()
 		printf("Dia do cadastro: %s\n", date);
 	}
 
+	fclose(f);
+
 	if (getAnswer(1))
 	{
 		showAllBooks();
@@ -310,6 +312,8 @@ void checkTitle()
 			fgets(line,50,f);
 		}
 	}
+
+	fclose(f);
 
 	if (count == 0)
 	{
@@ -372,6 +376,8 @@ void checkAuthor()
 		}
 	}
 
+	fclose(f);
+
 	if (count == 0)
 	{
 		printf("Não foi possível encontrar resultados para essa pesquisa.\n");
@@ -431,6 +437,8 @@ void checkPublisher()
 		}
 	}
 
+	fclose(f);
+
 	if (count == 0)
 	{
 		printf("Não foi possível encontrar resultados para essa pesquisa.\n");
@@ -484,6 +492,8 @@ void checkCategory()
 		}
 	}
 
+	fclose(f);
+
 	if (count == 0)
 	{
 		printf("Não foi possível encontrar resultados para essa pesquisa.\n");
@@ -499,6 +509,12 @@ void checkCategory()
 	}	
 }
 
+void eraseBooks()
+{
+	system("clear");
+	fclose(fopen("books//data.txt", "w"));
+}
+
 void showMenu()
 { 
 	system("clear");
@@ -506,7 +522,8 @@ void showMenu()
 	printf("Sistema de Livraria\n\n");
 	printf("1 - Adicionar Livro\n");
 	printf("2 - Checar Livro\n");
-	printf("3 - Sair\n\n");
+	printf("3 - Apagar dados\n");
+	printf("4 - Sair\n\n");
 	printf("O que deseja? ");
 	
 	int command;
@@ -523,6 +540,10 @@ void showMenu()
 		break;
 
 		case 3:
+		eraseBooks();
+		break;
+
+		case 4:
 		system("clear");
 		return;
 	}
@@ -564,5 +585,3 @@ void showCheckMenu()
 		break;
 	}
 }
-
-// melhorar tela
