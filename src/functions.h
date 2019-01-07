@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 
 void showMenu();
 void addBook();
@@ -15,5 +16,6 @@ void checkTitle();
 void checkAuthor();
 void showCheckMenu();
 void setCategory();
+struct tm getTime();
 
 #endif

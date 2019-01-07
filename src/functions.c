@@ -168,6 +168,13 @@ void setCategory(char *new_book_category)
 	}
 }
 
+struct tm getTime()
+{	    
+	time_t t = time(0);
+	struct tm *today_time = localtime(&t);
+	return *today_time;
+}
+
 void addBook()
 {
 	system("clear");
@@ -177,7 +184,8 @@ void addBook()
 	char book_title[50];
 	char publisher[25];
 	char category[20];
-	
+	struct tm *today;
+
 	printf("Digite o nome do livro: ");
 	fgets(book_title,50,stdin);
 	printf("Digite o nome do autor: ");
@@ -189,6 +197,8 @@ void addBook()
 	getchar();
 	printf("Escolha a categoria\n");
 	setCategory(category);
+	*today = getTime();
+
 
 	FILE *f = fopen("books//data.txt","a+");
 	fprintf(f,"\n%s",book_title);
@@ -196,6 +206,8 @@ void addBook()
 	fprintf(f,"%s",publisher);
 	fprintf(f,"%d\n",isbn);
 	fprintf(f,"%s\n",category);
+	fprintf(f,"%.2d/%.2d/%.2d\n", today->tm_mday, today->tm_mon+1, today->tm_year+1900);
+        
 	fclose(f);
 
 	if (getAnswer(0))
@@ -217,6 +229,7 @@ void showAllBooks()
 	char publisher[50];
 	char isbn[50];
 	char category[20];
+	char date[15];
 
 	char line[50];
 	FILE *f = fopen("books//data.txt","r");
@@ -230,12 +243,14 @@ void showAllBooks()
 		fgets(publisher,50,f);	
 		fgets(isbn,50,f);
 		fgets(category,20,f);
+		fgets(date,15,f);
 
 		printf("Título: %s", book_title);
 		printf("Autor: %s", author_name);
 		printf("Editora: %s",publisher);
 		printf("ISBN: %s", isbn);
-		printf("Categoria: %s\n", category);
+		printf("Categoria: %s", category);
+		printf("Dia do cadastro: %s\n", date);
 	}
 
 	if (getAnswer(1))
