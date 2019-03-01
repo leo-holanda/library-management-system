@@ -1,4 +1,11 @@
-# LBM
-It's my first project! About a **l**ibrary **m**anagement **s**ystem, a common project in C.
+#  LBM
 
-I hope to learn more things about C and Github!
+a modest library management system
+
+## Built With
+
+- C
+
+## Note
+
+It's my first project! Coding this helped me to understand a little more about how C works with files, input (specially fgets) and different variables like pointers.
