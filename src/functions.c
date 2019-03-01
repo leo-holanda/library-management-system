@@ -8,7 +8,7 @@ int compareString(char *string_1, char *string_2)
 	strcpy(compare_2,string_2);
 
 	int i;
-	for (int i = 0; i < 50; ++i)
+	for (i = 0; i < 50; ++i)
 	{
 		compare_1[i] = tolower(compare_1[i]);
 		compare_2[i] = tolower(compare_2[i]);
@@ -26,12 +26,12 @@ int compareString(char *string_1, char *string_2)
 	}
 }
 
-int getCommand(int select)
+int getCommand(int token)
 {
 
 	int command;
 
-	if (select == 1)
+	if (token == 1)
 	{
 		printf("-> ");
 		scanf("%d", &command);
@@ -44,7 +44,7 @@ int getCommand(int select)
 			getchar();
 		}
 	}
-	else if (select == 2)
+	else if (token == 2)
 	{	
 		printf("Digite o comando desejado -> ");
 		scanf("%d", &command);
@@ -61,13 +61,13 @@ int getCommand(int select)
 	return command;
 }
 
-char getAnswer(int select)
+char getAnswer(int token)
 {
-	if (select == 0)
+	if (token == 0)
 	{
 		printf("Livro adicionado com sucesso! Deseja adicionar outro?");
 	}
-	else if (select == 1)
+	else if (token == 1)
 	{
 		printf("Deseja consultar novamente?");		
 	}
@@ -193,10 +193,13 @@ void addBook()
 	printf("Digite o nome da editora: ");
 	fgets(publisher,25,stdin);
 	printf("Digite o número de ISBN: ");
+	
 	scanf("%d", &isbn);
 	getchar();
+	
 	printf("Escolha a categoria\n");
 	setCategory(category);
+	
 	*today = getTime();
 
 
@@ -207,17 +210,9 @@ void addBook()
 	fprintf(f,"%d\n",isbn);
 	fprintf(f,"%s\n",category);
 	fprintf(f,"%.2d/%.2d/%.2d\n", today->tm_mday, today->tm_mon+1, today->tm_year+1900);
-        
 	fclose(f);
 
-	if (getAnswer(0))
-	{
-		addBook();
-	}
-	else
-	{
-		showMenu();
-	}
+	(getAnswer(0)) ? addBook() : showMenu();
 }
 
 void showAllBooks()
@@ -255,19 +250,14 @@ void showAllBooks()
 
 	fclose(f);
 
-	if (getAnswer(1))
-	{
-		showAllBooks();
-	}
-	else
-	{
-		showMenu();
-	}
+	(getAnswer(1)) ? showAllBooks() : showMenu();
 }
 
-void checkTitle()
+void checkContent(int command)
 {
 	system("clear");
+
+	int hasFound = 0;
 
 	char book_title[50];
 	char author_name[50];
@@ -275,238 +265,66 @@ void checkTitle()
 	char isbn[50];
 	char category[20];
 
-	char line[50];
-	int count = 0;
+	char *picked_content;
+	switch(command)
+	{
+		case 1:
+		printf("Digite o título que deseja buscar: ");
+		picked_content = book_title;
+		break;
+
+		case 2:
+		printf("Digite o autor que deseja buscar: ");
+		picked_content = author_name;
+		break;
+
+		case 3:
+		printf("Digite a editora que deseja buscar: ");
+		picked_content = publisher;
+		break;
+
+		case 4:
+		printf("Digite a categoria que deseja buscar: ");
+		picked_content = category;
+		break;
+
+		case 5:
+		showAllBooks();
+		break;
+	}
 	
-	char searched_title[50];
-	printf("Digite o título que deseja buscar: ");
-	fgets(searched_title,50,stdin);
+	char searched_content[50];
+	fgets(searched_content,50,stdin);
 	printf("\n");
 
 	FILE *f = fopen("books//data.txt","r");
 
-	while(fgets(line,50,f) != NULL)
+	char line_break[50];
+	while(fgets(line_break,50,f) != NULL)
 	{
 		fgets(book_title,50,f);
-
-		if (compareString(searched_title,book_title))
+		fgets(author_name,50,f);
+		fgets(publisher,50,f);
+		fgets(isbn,50,f);
+		fgets(category,50,f);
+		
+		if (compareString(searched_content,picked_content))
 		{
-			count = 1;
-
-			fgets(author_name,50,f);
-			fgets(publisher,50,f);
-			fgets(isbn,50,f);
-			fgets(category,50,f);
-
+			hasFound = 1;
 			printf("Título: %s", book_title);
 			printf("Autor: %s", author_name);
 			printf("Editora: %s",publisher);
 			printf("ISBN: %s", isbn);
 			printf("Categoria: %s\n", category);
 		}
-		else
-		{
-			fgets(line,50,f);
-			fgets(line,50,f);
-			fgets(line,50,f);
-			fgets(line,50,f);
-		}
 	}
-
-	fclose(f);
-
-	if (count == 0)
-	{
-		printf("Não foi possível encontrar resultados para essa pesquisa.\n");
-	}
-
-	if (getAnswer(1))
-	{
-		checkTitle();
-	}
-	else
-	{
-		showMenu();
-	}	
-}
-
-void checkAuthor()
-{
-	system("clear");
-
-	char book_title[50];
-	char author_name[50];
-	char publisher[50];
-	char isbn[50];
-	char category[20];
-	char line[50];
-	int count = 0;
 	
-	char searched_author[50];
-	printf("Digite o nome do autor que deseja buscar: ");
-	fgets(searched_author,50,stdin);
-	printf("\n");
-
-	FILE *f = fopen("books//data.txt","r");
-
-	while(fgets(line,50,f) != NULL)
-	{
-		fgets(book_title,50,f);
-		fgets(author_name,50,f);
-			
-		if (compareString(searched_author,author_name))
-		{
-			count = 1;
-
-			fgets(publisher,50,f);
-			fgets(isbn,50,f);
-			fgets(category,20,f);
-
-			printf("Título: %s", book_title);
-			printf("Autor: %s", author_name);
-			printf("Editora: %s",publisher);
-			printf("ISBN: %s", isbn);
-			printf("Categoria: %s\n\n", category);
-		}
-		else
-		{
-			fgets(line,50,f);
-			fgets(line,50,f);
-			fgets(line,50,f);
-		}
-	}
-
 	fclose(f);
 
-	if (count == 0)
+	if (!hasFound)
 	{
 		printf("Não foi possível encontrar resultados para essa pesquisa.\n");
 	}
-
-	if (getAnswer(1))
-	{
-		checkAuthor();
-	}
-	else
-	{
-		showMenu();
-	}	
-}
-
-void checkPublisher()
-{
-	system("clear");
-
-	char book_title[50];
-	char author_name[50];
-	char publisher[50];
-	char isbn[50];
-	char category[20];
-	char line[50];
-	int count = 0;
-
-	char searched_publisher[50];
-	printf("Digite o nome da editora que deseja buscar: ");
-	fgets(searched_publisher,50,stdin);
-	printf("\n");
-
-	FILE *f = fopen("books//data.txt","r");
-
-	while(fgets(line,50,f) != NULL)
-	{
-		fgets(book_title,50,f);
-		fgets(author_name,50,f);
-		fgets(publisher,50,f);	
-		
-		if (compareString(searched_publisher,publisher))
-		{
-			fgets(isbn,50,f);
-			fgets(category,20,f);
-
-			count = 1;
-			printf("Título: %s", book_title);
-			printf("Autor: %s", author_name);
-			printf("Editora: %s",publisher);
-			printf("ISBN: %s", isbn);
-			printf("Categoria: %s\n\n", category);
-		}
-		else
-		{
-			fgets(line,50,f);
-			fgets(line,50,f);
-		}
-	}
-
-	fclose(f);
-
-	if (count == 0)
-	{
-		printf("Não foi possível encontrar resultados para essa pesquisa.\n");
-	}
-
-	if (getAnswer(1))
-	{
-		checkPublisher();
-	}
-	else
-	{
-		showMenu();
-	}	
-}
-
-void checkCategory()
-{
-	system("clear");
-
-	char book_title[50];
-	char author_name[50];
-	char publisher[50];
-	char isbn[50];
-	char category[20];
-	char line[50];
-	int count = 0;
-
-	char searched_category[20];
-	printf("Digite o nome da categoria que deseja buscar: ");
-	fgets(searched_category,20,stdin);
-	searched_category[strlen(searched_category)-1] = '\0';	
-
-	FILE *f = fopen("books//data.txt","r");
-
-	while(fgets(line,50,f) != NULL)
-	{
-		fgets(book_title,50,f);
-		fgets(author_name,50,f);
-		fgets(publisher,50,f);	
-		fgets(isbn,50,f);
-		fgets(category,20,f);
-
-		if (compareString(searched_category,category))
-		{
-			count = 1;
-			printf("\nTítulo: %s", book_title);
-			printf("Autor: %s", author_name);
-			printf("Editora: %s",publisher);
-			printf("ISBN: %s", isbn);
-			printf("Categoria: %s\n\n", category);
-		}
-	}
-
-	fclose(f);
-
-	if (count == 0)
-	{
-		printf("Não foi possível encontrar resultados para essa pesquisa.\n");
-	}
-
-	if (getAnswer(1))
-	{
-		checkCategory();
-	}
-	else
-	{
-		showMenu();
-	}	
 }
 
 void eraseBooks()
@@ -561,27 +379,5 @@ void showCheckMenu()
 
 	int command;
 	command = getCommand(2);
-
-	switch(command)
-	{
-		case 1:
-		checkTitle();
-		break;
-
-		case 2:
-		checkAuthor();
-		break;
-
-		case 3:
-		checkPublisher();
-		break;
-
-		case 4:
-		checkCategory();
-		break;
-
-		case 5:
-		showAllBooks();
-		break;
-	}
+	checkContent(command);
 }
