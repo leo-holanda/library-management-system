@@ -20,10 +20,8 @@ int compareString(char *string_1, char *string_2)
 	{
 		return 0;
 	}
-	else
-	{
-		return 1;
-	}
+	
+	return 1;
 }
 
 int getCommand(int token)
@@ -168,7 +166,7 @@ void setCategory(char *new_book_category)
 	}
 }
 
-struct tm getTime()
+struct tm getTime() 
 {	    
 	time_t t = time(0);
 	struct tm *today_time = localtime(&t);
@@ -264,6 +262,7 @@ void checkContent(int command)
 	char publisher[50];
 	char isbn[50];
 	char category[20];
+	char date[15];
 
 	char *picked_content;
 	switch(command)
@@ -307,7 +306,8 @@ void checkContent(int command)
 		fgets(publisher,50,f);
 		fgets(isbn,50,f);
 		fgets(category,50,f);
-		
+		fgets(date,15,f);
+
 		if (compareString(searched_content,picked_content))
 		{
 			hasFound = 1;
@@ -315,7 +315,8 @@ void checkContent(int command)
 			printf("Autor: %s", author_name);
 			printf("Editora: %s",publisher);
 			printf("ISBN: %s", isbn);
-			printf("Categoria: %s\n", category);
+			printf("Categoria: %s", category);
+			printf("Dia do cadastro: %s\n", date);
 		}
 	}
 	
@@ -325,6 +326,8 @@ void checkContent(int command)
 	{
 		printf("Não foi possível encontrar resultados para essa pesquisa.\n");
 	}
+
+	(getAnswer(1)) ? checkContent(command) : showMenu();
 }
 
 void eraseBooks()
@@ -344,9 +347,7 @@ void showMenu()
 	printf("4 - Sair\n\n");
 	printf("O que deseja? ");
 	
-	int command;
-	command = getCommand(1);
-
+	int command = getCommand(1);
 	switch(command)
 	{
 		case 1:
@@ -377,7 +378,6 @@ void showCheckMenu()
 	printf("4 - Categoria\n");
 	printf("5 - Todos os livros\n");
 
-	int command;
-	command = getCommand(2);
+	int command = getCommand(2);
 	checkContent(command);
 }
